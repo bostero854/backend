@@ -1,27 +1,28 @@
 'use strict'
 
 var validator = require('validator');
-const article = require('../models/article');
+//const article = require('../models/article');
 var Articulo = require('../models/article');
 
 var controller = {
 
-    datosCurso:(req,res)=>{
-        var param= req.body.hola;
+    datosCurso: (req, res) => {
+        var param = req.body.hola;
         return res.status(200).send({
-            curso:'programacion 3',
-            autor:'benedicto paco o',
-            url:'www.nslp.com.ar',
-            param});
+            curso: 'programacion 3',
+            autor: 'benedicto paco o',
+            url: 'www.nslp.com.ar',
+            param
+        });
     },
-    test:(req,res)=>{
+    test: (req, res) => {
 
         return res.status(200).send(
             {
-                message:'Soy la accion test de mi controlador de articulos'
+                message: 'Soy la accion test de mi controlador de articulos'
             });
     },
-    save:(req,res)=>{
+    save: (req, res) => {
 
         // Tomar los parametros por post
         var params = req.body;
@@ -30,7 +31,7 @@ var controller = {
 
         //Validar datos(Validator)
         try {
-            
+
             //validamos que no este vacio
             var validate_title = !validator.isEmpty(params.title);
             var validate_content = !validator.isEmpty(params.content);
@@ -38,11 +39,11 @@ var controller = {
 
         } catch (error) {
             return res.status(200).send({
-                message:'Faltan datos por enviar'
+                message: 'Faltan datos por enviar'
             });
-        }    
+        }
 
-        if(validate_title && validate_content){
+        if (validate_title && validate_content) {
 
             console.log('Validacion conrrecta');
 
@@ -57,14 +58,14 @@ var controller = {
             console.log(article);
 
             //Guardar en la base de datos
-            article.save((err,articleStore)=>{
+            article.save((err, articleStore) => {
 
                 console.log(articleStore);
-                if(err || !articleStore){
+                if (err || !articleStore) {
                     return res.status(404).send({
                         status: 'Error',
-                        message:'El articulo no se guardo!!'
-                        
+                        message: 'El articulo no se guardo!!'
+
                     });
 
                 }
@@ -72,53 +73,53 @@ var controller = {
                 //Retorar respuesta
                 return res.status(200).send({
                     status: 'success',
-                    article:articleStore
-                    
+                    article: articleStore
+
                 });
             });
 
 
-        }else{
+        } else {
             return res.status(200).send({
                 status: 'Error',
-                message:'Los datos no son validos'
+                message: 'Los datos no son validos'
             });
         }
 
 
 
         return res.status(200).send({
-            article:params
+            article: params
         });
     },
-    
+
     //Nuevo metodo get
-    getAricles:(req,res)=>{
+    getAricles: (req, res) => {
 
         var last = req.params.last;
         var query = Articulo.find({});
-        
-        if(last || last != undefined){
+
+        if (last || last != undefined) {
             //Limitamos la cantidad de datos a retornar con query.limit
             query.limit(5);
 
         }
 
         //se usa para ordenar sort por el campo del json que tenemos en la base de datos
-        query.sort('-_id').exec((err,articles)=>{
+        query.sort('-_id').exec((err, articles) => {
 
-            if(err){
+            if (err) {
                 return res.status(500).send({
                     status: 'Error',
-                    message:'Error al devolver los articulos'
-                });  
+                    message: 'Error al devolver los articulos'
+                });
 
             }
-            if(!articles){
+            if (!articles) {
                 return res.status(404).send({
                     status: 'success',
-                    message:'No hay articulos para mostrar'
-                });  
+                    message: 'No hay articulos para mostrar'
+                });
 
             }
 
@@ -129,6 +130,42 @@ var controller = {
             });
 
         });
+
+    },
+    getAricle: (req, res) => {
+
+        //Tomar el id de la url
+        var articleId = req.params.id;
+
+        //Comprobar que exista
+        if (!articleId || articleId == null) {
+            return res.status(404).send({
+                status: 'success',
+                message: 'El articulo no existe!!!'
+            });
+
+        }
+
+        //Busca el articulo
+        Articulo.findById(articleId, (err, articles) => {
+
+            if (err || !articles) {
+
+                return res.status(500).send({
+                    status: 'success',
+                    message: 'El articulo no existe'
+                });
+            }
+
+            //Envia respuesta json y devolverlo
+            return res.status(200).send({
+                status: 'success',
+                articles
+            });
+
+        });
+
+
 
     }
 
