@@ -95,8 +95,17 @@ var controller = {
     //Nuevo metodo get
     getAricles:(req,res)=>{
 
+        var last = req.params.last;
+        var query = Articulo.find({});
+        
+        if(last || last != undefined){
+            //Limitamos la cantidad de datos a retornar con query.limit
+            query.limit(5);
+
+        }
+
         //se usa para ordenar sort por el campo del json que tenemos en la base de datos
-        Articulo.find({}).sort('-_id').exec((err,articles)=>{
+        query.sort('-_id').exec((err,articles)=>{
 
             if(err){
                 return res.status(500).send({
