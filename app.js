@@ -11,7 +11,7 @@ var app = express();
 var article_routes = require('./routes/article');
 
 //Cargar middelwares--Se ejecuta antes
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
@@ -19,10 +19,10 @@ app.use(bodyParser.json());
 
 
 //Añadir prefijos a las rutas
-app.use('/api/',article_routes);
+app.use('/api/', article_routes);
 //req = request
 //res = response
 
-    
+
 //Exportar el modulo
-module.exports=app;
+module.exports = app;
