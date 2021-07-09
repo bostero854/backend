@@ -12,6 +12,7 @@ router.get('/test-de-controlador',ArticleController.test);
 //Rutas de utiles
 router.post('/save', ArticleController.save);
 
-router.get('/articles', ArticleController.getAricles);
+//Se agrega un parametro opcional con ?
+router.get('/articles/:last?', ArticleController.getAricles);
 
 module.exports = router;
