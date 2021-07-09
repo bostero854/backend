@@ -95,7 +95,8 @@ var controller = {
     //Nuevo metodo get
     getAricles:(req,res)=>{
 
-        Articulo.find({}).exec((err,articles)=>{
+        //se usa para ordenar sort por el campo del json que tenemos en la base de datos
+        Articulo.find({}).sort('-_id').exec((err,articles)=>{
 
             if(err){
                 return res.status(500).send({
@@ -120,12 +121,9 @@ var controller = {
 
         });
 
-
-
     }
 
 };
 
 module.exports = controller;
 
-//ver Unidad 6 :: Método que devuelve todos los artículos de la base de datos [72] [Clase 15]
