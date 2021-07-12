@@ -167,8 +167,63 @@ var controller = {
 
 
 
-    }
+    },
+    update:(req, res)=>{
+        //tomar el ud del articulo de la url
+        var articleId = req.params.id;
 
+        //tomanos los datos que llegan por put
+        var params = req.body;
+
+        //validar los datos
+        try {
+            
+            var validate_title = !validator.isEmpty(params.title);
+            var validate_content = !validator.isEmpty(params.content);
+
+        } catch (error) {
+            return res.status(404).send({
+                status: 'success',
+                message: 'Faltan datos por enviar'
+            });            
+        }
+
+
+        if(validate_title && validate_content){
+            //find y update
+            Articulo.findByIdAndUpdate({_id:articleId}, params,{new:true},(err,articleUpdated)=>{
+
+                if(err){
+                    return res.status(500).send({
+                        status: 'success',
+                        message: 'Error al actulizar'
+                    });   
+
+                }
+                if(!articleUpdated){
+                    return res.status(400).send({
+                        status: 'success',
+                        message: 'No existe el articulo'
+                    });                    
+                }
+
+                return res.status(200).send({
+                    status: 'success',
+                    articleUpdated
+                });                
+
+            });
+
+        }else{
+            return res.status(404).send({
+                status: 'success',
+                message: 'La validacion no es correcta'
+            });    
+        }
+
+        
+   }
+    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35735&forceview=1
 };
 
 module.exports = controller;

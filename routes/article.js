@@ -17,4 +17,8 @@ router.get('/articles/:last?', ArticleController.getAricles);
 
 //Campo obligatorio
 router.get('/article/:id', ArticleController.getAricle);
+
+//Campo obligatorio
+router.put('/article/:id', ArticleController.update);
+
 module.exports = router;
