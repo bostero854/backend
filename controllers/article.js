@@ -222,8 +222,41 @@ var controller = {
         }
 
         
+   },
+   delete:(req,res)=>{//Se borra un articulo por id
+
+        //tomar el ud del articulo de la url
+        var articleId = req.params.id;
+
+        console.log(articleId);
+
+        //Find and delete
+        Articulo.findOneAndDelete({_id:articleId},(err,articuleRemove)=>{
+
+            if(err){
+                return res.status(500).send({
+                    status: 'success',
+                    message: 'Error al borrar'
+                });   
+
+            }
+            if(!articuleRemove){
+                return res.status(400).send({
+                    status: 'success',
+                    message: 'El articulo no se ha borrado'
+                });                    
+            }           
+
+            return res.status(200).send({
+                status: 'success',
+                article: articuleRemove
+            });  
+
+        });
+
    }
     //Ver el video https://nslp.com.ar/mod/page/view.php?id=35735&forceview=1
+    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35737&forceview=1
 };
 
 module.exports = controller;
