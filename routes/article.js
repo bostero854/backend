@@ -4,6 +4,10 @@ var ArticleController = require('../controllers/article');
 
 var router = express.Router();
 
+var multipaty = require('connect-multiparty');
+
+var md_upload = multipaty({uploadDir:'./upload/articles'});
+
 //Rutas de prueba
 router.post('/datos-curso', ArticleController.datosCurso);
 router.get('/test-de-controlador', ArticleController.test);
@@ -23,4 +27,8 @@ router.put('/article/:id', ArticleController.update);
 
 //Campo obligatorio
 router.delete('/article/:id', ArticleController.delete);
+
+//Campo obligatorio
+router.post('/upload-image/:id',md_upload, ArticleController.upload);
+
 module.exports = router;

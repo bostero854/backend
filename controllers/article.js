@@ -228,8 +228,6 @@ var controller = {
         //tomar el ud del articulo de la url
         var articleId = req.params.id;
 
-        console.log(articleId);
-
         //Find and delete
         Articulo.findOneAndDelete({_id:articleId},(err,articuleRemove)=>{
 
@@ -241,7 +239,7 @@ var controller = {
 
             }
             if(!articuleRemove){
-                return res.status(400).send({
+                return res.status(404).send({
                     status: 'success',
                     message: 'El articulo no se ha borrado'
                 });                    
@@ -254,9 +252,63 @@ var controller = {
 
         });
 
+   },
+   upload:(req,res)=>{
+
+
+        //Configurar el modulo del connectMultiparty router/artcle.js
+
+
+
+        //Tomar el archivo de la peticion que nos envian
+        var file_Name='Imagen no subida...';
+        console.log(req.files);
+
+        if(!req.files){
+            return res.status(404).send({
+                status: 'success',
+                message: file_Name
+            });  
+
+        }
+        //Configurar el nombre y la extension del archivo
+        var file_path = req.files.file0.path;
+        var file_split = file_path.split('\\');
+
+        // advertencia para linux o mac
+        //var file_split = file_path.split('/');
+
+        //Nombre del archivo
+        var file_name = file_split[2];
+
+        //Extension del archivo
+        var extension_split = file_name.split('\.');
+
+        var file_ext = extension_split[1];
+
+        //Comprobar la extension -> solo, si no es valida borrar el archivo
+        if(file_ext!= 'png'&& 
+            file_ext!= 'jpg' && 
+            file_ext!= 'git'){
+                //Borrar el archivo subido
+
+        }else{
+            //si esta tidi bien
+            
+        }
+
+        
+
+
+        //Buscar el articulo
+        return res.status(200).send({
+            fichero: req.files
+        });     
+
    }
     //Ver el video https://nslp.com.ar/mod/page/view.php?id=35735&forceview=1
     //Ver el video https://nslp.com.ar/mod/page/view.php?id=35737&forceview=1
+    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35738&forceview=1
 };
 
 module.exports = controller;
