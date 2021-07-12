@@ -21,4 +21,6 @@ router.get('/article/:id', ArticleController.getAricle);
 //Campo obligatorio
 router.put('/article/:id', ArticleController.update);
 
+//Campo obligatorio
+router.delete('/article/:id', ArticleController.delete);
 module.exports = router;
