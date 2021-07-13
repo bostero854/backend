@@ -320,7 +320,7 @@ var controller = {
     
                 }
                                 
-                
+
                 return res.status(200).send({
                     status: 'success',
                     article: req.articleUpdated
@@ -340,6 +340,7 @@ var controller = {
 
    }
     //Ver el video https://nslp.com.ar/mod/page/view.php?id=35740&forceview=1
+    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35741&forceview=1
 };
 
 module.exports = controller;
