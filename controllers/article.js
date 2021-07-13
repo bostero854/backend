@@ -3,6 +3,9 @@
 var validator = require('validator');
 //const article = require('../models/article');
 var Articulo = require('../models/article');
+var fs = require('fs');
+var path = require('path');
+
 
 var controller = {
 
@@ -289,26 +292,53 @@ var controller = {
         //Comprobar la extension -> solo, si no es valida borrar el archivo
         if(file_ext!= 'png'&& 
             file_ext!= 'jpg' && 
-            file_ext!= 'git'){
-                //Borrar el archivo subido
+            file_ext!= 'git' && 
+            file_ext!= 'jpeg'){
+
+            //Borrar el archivo subido
+            //unlink nos permite borrar el archivo
+            fs.unlink(file_path,(err)=>{
+                return res.status(200).send({
+                    status: 'Error',
+                    message:'la extension de la imagen no es valida'
+                });  
+            });
 
         }else{
-            //si esta tidi bien
-            
+            //si esta tido bien y sacamos el id de la 
+            var articleId = req.params.id;
+
+             //Buscar el articulo, asignamos el nombre de la imagen y lo actulizo
+            Articulo.findOneAndUpdate({_id:articleId}, {image:file_name}, {new:true},(err,articleUpdated)=>{
+
+
+                if(err || !articleUpdated){
+                    return res.status(200).send({
+                        status: 'success',
+                        message: 'Error al guardar la imagen del articulo!!!'
+                    });   
+    
+                }
+                                
+                return res.status(200).send({
+                    status: 'success',
+                    article: req.articleUpdated
+                }); 
+            });
+
+            return res.status(200).send({
+                fichero: req.files
+            }); 
         }
 
         
 
 
-        //Buscar el articulo
-        return res.status(200).send({
-            fichero: req.files
-        });     
+       
+    
 
    }
-    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35735&forceview=1
-    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35737&forceview=1
-    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35738&forceview=1
+    //Ver el video https://nslp.com.ar/mod/page/view.php?id=35740&forceview=1
 };
 
 module.exports = controller;
