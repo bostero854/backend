@@ -320,6 +320,7 @@ var controller = {
     
                 }
                                 
+                
                 return res.status(200).send({
                     status: 'success',
                     article: req.articleUpdated
