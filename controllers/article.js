@@ -338,6 +338,30 @@ var controller = {
        
     
 
+   },
+   getImage:(req,res)=>{
+
+    //obtengo el id de la imagen
+    var file = req.params.image;
+
+
+    //Sacar el path completo
+    var path_fle = './upload/articles/' + file;
+    console.log(path_fle);
+
+    fs.exists(path_fle,(exists)=>{
+        if(exists){
+            return res.sendFile(path.resolve(path_fle));
+        }else{
+            return res.status(200).send({
+                status: 'Error',
+                message: 'La imagen no existe!!!'
+            });   
+        }
+
+    });
+
+
    }
     //Ver el video https://nslp.com.ar/mod/page/view.php?id=35740&forceview=1
     //Ver el video https://nslp.com.ar/mod/page/view.php?id=35741&forceview=1

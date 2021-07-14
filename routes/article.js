@@ -12,23 +12,16 @@ var md_upload = multipaty({uploadDir:'./upload/articles'});
 router.post('/datos-curso', ArticleController.datosCurso);
 router.get('/test-de-controlador', ArticleController.test);
 
-
 //Rutas de utiles
 router.post('/save', ArticleController.save);
 
 //Se agrega un parametro opcional con ?
 router.get('/articles/:last?', ArticleController.getAricles);
 
-//Campo obligatorio
 router.get('/article/:id', ArticleController.getAricle);
-
-//Campo obligatorio
 router.put('/article/:id', ArticleController.update);
-
-//Campo obligatorio
 router.delete('/article/:id', ArticleController.delete);
-
-//Campo obligatorio
 router.post('/upload-image/:id',md_upload, ArticleController.upload);
+router.get('/get-image/:image', ArticleController.getImage);
 
 module.exports = router;
